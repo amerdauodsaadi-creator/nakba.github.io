@@ -1,0 +1,301 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NAKBA — Minimal Apparel</title>
+    <style>
+        :root{
+            --bg:#0b0b0d; --panel:rgba(255,255,255,0.04); --muted:rgba(255,255,255,0.55); --accent: #ff7a59;
+            --glass: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            --radius:16px;
+            --ease: cubic-bezier(.16,.84,.44,1);
+            --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono";
+        }
+
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            margin:0; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            background: radial-gradient(1200px 600px at 10% 10%, rgba(255,122,89,0.04), transparent),
+                                    radial-gradient(800px 400px at 90% 90%, rgba(90,120,255,0.03), transparent),
+                                    var(--bg);
+            color:#fff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+            line-height:1.4;
+        }
+
+        /* Sticky top bar */
+        header{
+            position:sticky; top:0; z-index:999; backdrop-filter: blur(6px);
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .wrap{max-width:1100px; margin:0 auto; padding:18px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+
+        .brand{display:flex;align-items:center;gap:12px}
+        .logo-placeholder{width:56px;height:56px;border-radius:10px;border:2px dashed rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);background:linear-gradient(180deg, rgba(255,255,255,0.012), transparent)}
+        .brand-text{display:flex;flex-direction:column}
+        .brand-text .title{font-weight:700;letter-spacing:0.6px}
+        .brand-text .tag{font-size:12px;color:var(--muted);margin-top:2px}
+
+        nav{display:flex;gap:8px}
+        nav button{background:transparent;border:0;color:var(--muted);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600;transition:all 220ms var(--ease)}
+        nav button:hover{transform:translateY(-3px) scale(1.02); color:#fff}
+        nav button.active{background:rgba(255,255,255,0.06); color:#fff}
+
+        main{max-width:1100px;margin:30px auto;padding:24px}
+
+        /* Home */
+        .hero{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center}
+        .hero h1{font-size:48px;margin:0;letter-spacing:-1px}
+        .hero p{color:var(--muted);max-width:56ch}
+        .hero .cta{display:flex;gap:12px;margin-top:20px}
+        .btn{padding:10px 14px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:transform 220ms var(--ease)}
+        .btn:hover{transform:translateY(-3px)}
+
+        .placeholders{display:grid;grid-template-columns:1fr;gap:14px}
+        .ph{height:120px;border-radius:12px;border:2px dashed rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:var(--muted);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+
+        /* feature cards */
+        .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+        .card{padding:18px;border-radius:14px;background:var(--panel);border:1px solid rgba(255,255,255,0.03);transition:transform 260ms var(--ease)}
+        .card:hover{transform:translateY(-6px)}
+
+        /* Collection */
+        .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+        .product{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:16px;border-radius:14px;border:1px solid rgba(255,255,255,0.03);transition:transform 260ms var(--ease)}
+        .product:hover{transform:translateY(-6px)}
+        .product .img{height:360px;border-radius:12px;border:2px dashed rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+        .product .meta{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+
+        /* About */
+        .prose{color:var(--muted);max-width:80ch}
+        .prose h2{color:#fff}
+
+        /* Contact */
+        .contact-card{padding:14px;border-radius:12px;background:var(--panel);border:1px solid rgba(255,255,255,0.03)}
+
+        /* Footer */
+        footer{color:var(--muted);text-align:center;margin:40px 0}
+
+        /* Responsive */
+        @media (max-width:900px){
+            .hero{grid-template-columns:1fr;}
+            .placeholders{grid-template-columns:1fr 1fr}
+            .grid-2{grid-template-columns:1fr}
+        }
+
+        /* subtle floating animation for logo */
+        .float{animation:floaty 6s ease-in-out infinite}
+        @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+
+        /* small helpers */
+        .muted{color:var(--muted)}
+        .tiny{font-size:13px}
+
+        /* smooth appear animations */
+        .fade-in{opacity:0;transform:translateY(8px);animation:enter .6s forwards}
+        .fade-in.delay{animation-delay:.12s}
+        @keyframes enter{to{opacity:1;transform:none}}
+
+        /* hover glow on placeholders */
+        .ph:hover, .product .img:hover{box-shadow:0 8px 28px rgba(0,0,0,0.6);}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="wrap">
+            <div class="brand" role="banner">
+                <img src="https://uploads.onecompiler.io/4428dypdk/44798g6uw/nakba_logo-removebg-preview.png" class="float" id="logoPlace" style="width:56px; height:56px; border-radius:10px;">
+
+                <div class="brand-text">
+                    <div class="title">NAKBA</div>
+                    <div class="tag">Wear memory. Support a future.</div>
+                </div>
+            </div>
+
+            <nav role="navigation" aria-label="Main navigation">
+                <button data-target="home" class="active">Home</button>
+                <button data-target="about">About Us</button>
+                <button data-target="collection">Collection</button>
+                <button data-target="contact">Contact</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home -->
+        <section id="home" class="page fade-in">
+            <div class="hero">
+                <div>
+                    <h1>NAKBA</h1>
+                    <p>A minimal apparel project started by two teens. Simple, modern hoodies that carry a message — a percentage of each sale goes to charity.</p>
+                    <div class="cta">
+                        <button class="btn" onclick="navigate('collection')" style="background:#c00000; color:#fff;">Explore Collection</button>
+                        <button class="btn" onclick="navigate('about')" style="background:#008600; color:#fff;">Learn Our Story</button>
+                    </div>
+
+                    <div class="features">
+                        <div class="card">
+                            <strong>Quality fabric</strong>
+                            <div class="tiny muted">Comfort-first hoodies and tees</div>
+                        </div>
+                        <div class="card">
+                            <strong>Meaningful cause</strong>
+                            <div class="tiny muted">A portion of profits supports charity</div>
+                        </div>
+                        <div class="card">
+                            <strong>Youth-led</strong>
+                            <div class="tiny muted">Designs by two local teens</div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Image Showcase -->
+                    <div class="pro-gallery" style="margin-top:40px; display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+                        <img src="https://uploads.onecompiler.io/4428dypdk/44798g6uw/WhatsApp%20Image%202025-12-11%20at%202.18.33%20PM.jpeg" style="width:100%; height:200px; object-fit:cover; border-radius:12px;">
+                        <img src="https://uploads.onecompiler.io/4428dypdk/44798g6uw/WhatsApp%20Image%202025-11-16%20at%2018.59.31_7bff8de3.jpg" style="width:100%; height:200px; object-fit:cover; border-radius:12px;">
+                        <img src="https://uploads.onecompiler.io/4428dypdk/44798g6uw/WhatsApp%20Image%202025-11-16%20at%2018.59.30_1c06f690.jpg" style="width:100%; height:200px; object-fit:cover; border-radius:12px;">
+                    </div>
+                        </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="page" style="display:none;">
+            <div class="prose fade-in delay">
+                <h2>Our Story</h2>
+                <p>NAKBA was started by two teens who wanted to create more than clothing — they wanted a statement. The project began as a small idea between friends: design simple, modern hoodies that carry a message. A percentage of every profit goes to charity to support communities affected by displacement.</p>
+                <p>The founders handle design and creative direction, while collaborating with local producers when possible. The goal is to keep things honest, meaningful, and accessible.</p>
+            </div>
+        </section>
+
+        <!-- Collection -->
+        <section id="collection" class="page" style="display:none;">
+            <div>
+                <h2>Collection</h2>
+
+
+                <div class="grid-2" style="margin-top:18px">
+                    <article class="product">
+                        <img src="https://uploads.onecompiler.io/4428dypdk/44798g6uw/WhatsApp%20Image%202025-11-16%20at%2018.59.31_7bff8de3.jpg" style="width:100%; height:360px; object-fit:cover; border-radius:12px;">
+                        <div class="meta">
+
+                            <button class="btn" style="background:#008600; color:#fff; border:none;">View</button>
+                        </div>
+                    </article>
+
+                    <article class="product">
+                        <img src="https://uploads.onecompiler.io/4428dypdk/44798g6uw/WhatsApp%20Image%202025-12-11%20at%202.18.33%20PM.jpeg" style="width:100%; height:360px; object-fit:cover; border-radius:12px;">
+                        <div class="meta">
+
+                            <button class="btn" style="background:#008600; color:#fff; border:none;">View</button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="page" style="display:none;">
+            <div style="max-width:560px">
+                <h2>Contact</h2>
+                <p class="muted">Reach out and we'll get back to you.</p>
+
+                <div class="contact-card" style="margin-top:12px">
+                    <div style="font-size:13px;color:var(--muted)">Email</div>
+                    <div style="margin-top:6px">support@nakba.example</div>
+                </div>
+
+                <div class="contact-card" style="margin-top:12px">
+                    <div style="font-size:13px;color:var(--muted)">Instagram</div>
+                    <div style="margin-top:6px">@nakba_project</div>
+                </div>
+
+                <p class="muted tiny" style="margin-top:12px">Replace the contact handles in the HTML with your real email and Instagram username when you're ready.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>© <span id="year"></span> NAKBA — All rights reserved</footer>
+
+    <script>
+        // Simple hash-based client-side multipage navigation with sticky nav states
+        const pages = ['home','about','collection','contact'];
+        const navBtns = document.querySelectorAll('nav button');
+        const yearEl = document.getElementById('year'); yearEl.textContent = new Date().getFullYear();
+
+        function show(page){
+            pages.forEach(p=>{
+                const el = document.getElementById(p);
+                if(!el) return;
+                if(p===page){ el.style.display='block'; el.classList.add('fade-in'); }
+                else el.style.display='none';
+            });
+
+            navBtns.forEach(b=> b.classList.toggle('active', b.dataset.target===page));
+            // update hash without scrolling
+            if(location.hash !== '#'+page) history.pushState(null,'', '#'+page);
+            window.scrollTo({top:0, behavior:'smooth'});
+        }
+
+        function navigate(page){ show(page); }
+
+        // bind nav
+        navBtns.forEach(btn=>{
+            btn.addEventListener('click', e=>{
+                const t = btn.dataset.target; show(t);
+            })
+        });
+
+        // initial load
+        const initial = location.hash ? location.hash.replace('#','') : 'home';
+        show(pages.includes(initial) ? initial : 'home');
+
+        // handle back/forward
+        window.addEventListener('popstate', ()=>{
+            const h = location.hash ? location.hash.replace('#','') : 'home';
+            show(pages.includes(h) ? h : 'home');
+        });
+
+        // tiny enhancement: allow dropping images onto placeholders to preview (client-side only)
+        const droppables = ['ph-logo','ph-1','ph-2','hoodie-1','hoodie-2'];
+        droppables.forEach(id=>{
+            const el = document.getElementById(id);
+            if(!el) return;
+            el.addEventListener('dragover', e=>{ e.preventDefault(); el.style.opacity=0.8 });
+            el.addEventListener('dragleave', e=>{ el.style.opacity=1 });
+            el.addEventListener('drop', e=>{
+                e.preventDefault(); el.style.opacity=1;
+                const f = e.dataTransfer.files && e.dataTransfer.files[0];
+                if(!f) return;
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    el.style.background = `url('${ev.target.result}') center/cover no-repeat`;
+                    el.textContent = '';
+                    el.style.border = 'none';
+                };
+                reader.readAsDataURL(f);
+            });
+        });
+
+        // keyboard quick-nav (H - home, A - about, C - collection, K - contact)
+        window.addEventListener('keydown', e=>{
+            const key = e.key.toLowerCase();
+            if(key==='h') navigate('home');
+            if(key==='a') navigate('about');
+            if(key==='c') navigate('collection');
+            if(key==='k') navigate('contact');
+        });
+
+    </script>
+</body>
+</html>
